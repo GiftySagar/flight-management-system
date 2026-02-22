@@ -1,0 +1,36 @@
+{% extends 'home.html' %}
+{% block content %}
+
+<h2 class="fw-bold mb-4">Booking History</h2>
+
+{% for b in bookings %}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold">{{ b.passenger_name }}</h5>
+        <p class="mb-1">
+            <strong>Flight:</strong> {{ b.flight.flight_no }} ({{ b.flight.origin }} → {{ b.flight.destination }})<br>
+            <strong>Email:</strong> {{ b.email }}<br>
+            <strong>Seat:</strong> {{ b.seat_class }} — {{ b.seat_number }}<br>
+            <strong>Status:</strong>
+            {% if b.status == "Booked" %}
+                <span class="badge bg-success">Booked</span>
+            {% else %}
+                <span class="badge bg-danger">Cancelled</span>
+            {% endif %}
+        </p>
+        <small class="text-muted">Booked on: {{ b.created }}</small>
+
+        {% if b.status == "Booked" %}
+        <a href="{% url 'cancel' b.id %}" class="btn btn-danger w-100 mt-3">
+            Cancel Booking
+        </a>
+        {% endif %}
+
+    </div>
+</div>
+{% empty %}
+<p>No booking history found.</p>
+{% endfor %}
+
+{% endblock %}

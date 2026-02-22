@@ -1,0 +1,35 @@
+{% extends 'nav.html' %}
+{% block content %}
+
+<h2 class="mb-4 fw-bold">Available Flights</h2>
+<center>
+    <form action="" method="POST">
+        <input type="text" name="q" placeholder="Search Here" id="">
+        <button type="submit">Search</button>
+    </form>
+</center><br>
+
+<div class="row">
+    {% for flight in flights %}
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ flight.flight_no }}</h5>
+                <p class="card-text">
+                    <strong>Route:</strong> {{ flight.origin }} → {{ flight.destination }}<br>
+                    <strong>Departure:</strong> {{ flight.departure_time }}<br>
+                    <strong>Price:</strong> ₹{{ flight.price }}
+                </p>
+
+                <a href="{% url 'booking' flight_id=flight.id %}" class="btn btn-primary w-100">
+                    Book Flight
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No flights available at the moment.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
